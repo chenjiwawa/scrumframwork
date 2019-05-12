@@ -28,7 +28,7 @@ import java.util.List;
 public class PermissionUtils {
     private static final String TAG = "PermissionUtils";
     private static PermissionUtils util;
-    private        int             requestCode;
+    private int requestCode;
     private HashMap<String, PermissionBuilder> maps = new HashMap<>();
 
     private PermissionUtils() {
@@ -51,7 +51,8 @@ public class PermissionUtils {
     public boolean isPermissionGranted(String... permissionArr) {
         if (permissionArr == null) return true;
         for (String permission : permissionArr) {
-            if (!(ContextCompat.checkSelfPermission(QsHelper.getInstance().getApplication(), permission) == PackageManager.PERMISSION_GRANTED)) return false;
+            if (!(ContextCompat.checkSelfPermission(QsHelper.getInstance().getApplication(), permission) == PackageManager.PERMISSION_GRANTED))
+                return false;
         }
         return true;
     }
@@ -134,7 +135,7 @@ public class PermissionUtils {
                     }
                 }
                 if (shouldShowDialog) {
-                    showPermissionTipsDialog(activity, shouldShowDialogArr);
+                    showPermissionTipsDialog(activity, shouldShowDialogArr, builder.getListener());
                 }
             }
 
@@ -144,7 +145,7 @@ public class PermissionUtils {
     /**
      * 当系统提醒请求权限的对话框勾选不再提醒时，弹出的自定义对话框
      */
-    private void showPermissionTipsDialog(Activity activity, ArrayList<String> showDialogPermission) {
+    private void showPermissionTipsDialog(Activity activity, ArrayList<String> showDialogPermission, final PermissionCallbackListener permissionCallbackListener) {
         if (activity == null || showDialogPermission == null || showDialogPermission.size() < 1) {
             return;
         }
@@ -155,7 +156,8 @@ public class PermissionUtils {
         builder.setTitle(QsHelper.getInstance().getString(android.R.string.dialog_alert_title))//
                 .setMessage(message)//
                 .setPositiveButton(QsHelper.getInstance().getString(android.R.string.ok), new DialogInterface.OnClickListener() {//
-                    @Override public void onClick(DialogInterface dialog, int which) {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
                         Intent intent = new Intent();
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -164,7 +166,11 @@ public class PermissionUtils {
                         dialog.cancel();
                     }
                 }).setNegativeButton(QsHelper.getInstance().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override public void onClick(DialogInterface dialog, int which) {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (permissionCallbackListener != null) {
+                    permissionCallbackListener.onNecessaryPermissionMissing();
+                }
                 dialog.cancel();
             }
         }).show();

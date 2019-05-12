@@ -12,4 +12,7 @@ public interface PermissionCallbackListener {
      * @param isGrantedAll 是否全部同意
      */
     void onPermissionCallback(int requestCode, boolean isGrantedAll);
+
+    void onNecessaryPermissionMissing();
+
 }

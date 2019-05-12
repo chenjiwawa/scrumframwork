@@ -58,6 +58,11 @@ public class PermissionAspect {
                                 L.e("PermissionAspect", "current permission is not allow, you can set @Permission(forceGoOn = true), it will run the method whether permission is granted!!");
                             }
                         }
+
+                        @Override
+                        public void onNecessaryPermissionMissing() {
+
+                        }
                     });
 
             builder.start();
