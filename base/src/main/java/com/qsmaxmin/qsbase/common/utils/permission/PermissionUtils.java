@@ -29,6 +29,7 @@ public class PermissionUtils {
     private static final String TAG = "PermissionUtils";
     private static PermissionUtils util;
     private int requestCode;
+    private static final int REQUESTCODE_SETTING = 123456;
     private HashMap<String, PermissionBuilder> maps = new HashMap<>();
 
     private PermissionUtils() {
@@ -162,7 +163,7 @@ public class PermissionUtils {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
                         intent.setData(Uri.fromParts("package", QsHelper.getInstance().getApplication().getPackageName(), null));
-                        QsHelper.getInstance().getApplication().startActivity(intent);
+                        QsHelper.getInstance().getApplication().startActivityForResult(intent, REQUESTCODE_SETTING);
                         dialog.cancel();
                     }
                 }).setNegativeButton(QsHelper.getInstance().getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
