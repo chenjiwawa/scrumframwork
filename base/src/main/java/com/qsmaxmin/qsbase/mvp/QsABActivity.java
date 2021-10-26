@@ -254,7 +254,7 @@ public abstract class QsABActivity<P extends QsPresenter> extends AppCompatActiv
     }
 
     @Override public void showLoadingView() {
-        setViewState(QsConstants.VIEW_STATE_LOADING);
+        setViewState(QsConstants.VIEW_STATE_mViewAnimatorLOADING);
     }
 
     @Override public void showContentView() {

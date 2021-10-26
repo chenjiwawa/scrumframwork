@@ -22,6 +22,7 @@ import okhttp3.Response;
 
 public abstract class QsApplication extends Application {
 
+    
     @Override public void onCreate() {
         super.onCreate();
         if (isLogOpen()) L.init(true);
